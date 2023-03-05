@@ -51,8 +51,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
 
-    // GIPHY SDK
-    implementation "com.giphy.sdk:ui:$giphy_version"
     // GLIDE V4 SDK
     implementation "com.github.bumptech.glide:glide:$glide_version"
     // okhttp
