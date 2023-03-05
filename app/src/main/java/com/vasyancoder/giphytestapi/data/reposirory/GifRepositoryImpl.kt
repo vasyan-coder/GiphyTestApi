@@ -6,7 +6,6 @@ import com.vasyancoder.giphytestapi.data.config.BaseOkHttpSource
 import com.vasyancoder.giphytestapi.data.config.OkHttpConfig
 import com.vasyancoder.giphytestapi.domain.entities.GifDetailEntity
 import com.vasyancoder.giphytestapi.domain.entities.GifItemEntity
-import com.vasyancoder.giphytestapi.domain.entities.ImageEntity
 import com.vasyancoder.giphytestapi.domain.repository.GifRepository
 import okhttp3.Request
 
@@ -14,11 +13,13 @@ class GifRepositoryImpl(
     config: OkHttpConfig
 ) : BaseOkHttpSource(config), GifRepository {
 
-    override suspend fun getGifList(): List<GifItemEntity> {
+    override suspend fun getGifList(url_func: String, args: String): List<GifItemEntity> {
         val request = Request.Builder()
             .get()
-            .endpoint(API_KEY)
+            .endpoint("$url_func$API_KEY$args")
             .build()
+
+        Log.d("myLogs", config.baseUrl + url_func + API_KEY + args)
 
         val response = client.newCall(request).suspendEnqueue()
         val listImageEntities = response.parseJsonResponseGifs()
