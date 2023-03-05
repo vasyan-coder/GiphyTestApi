@@ -6,6 +6,8 @@ import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import com.vasyancoder.giphytestapi.data.exceptions.ConnectionException
 import com.vasyancoder.giphytestapi.data.exceptions.ParseBackendResponseException
+import com.vasyancoder.giphytestapi.domain.entities.GifDetailEntity
+import com.vasyancoder.giphytestapi.domain.entities.GifItemEntity
 import com.vasyancoder.giphytestapi.domain.entities.ImageEntity
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.*
@@ -48,21 +50,51 @@ open class BaseOkHttpSource(
     /**
      * Read Json objects, returned list
      */
-    inline fun <reified T> Response.parseJsonResponse(): List<T> {
+    fun Response.parseJsonResponseGifs(): List<ImageEntity> {
         try {
-            val list = mutableListOf<T>()
+            val list = mutableListOf<ImageEntity>()
             val responseBodyString = this.body!!.string()
             val jsonObject: JsonObject = JsonParser.parseString(responseBodyString).asJsonObject
             val jsonData = jsonObject.get("data").asJsonArray
             for (jsonImages in jsonData) {
                 val jsonImages = jsonImages.asJsonObject.get("images").asJsonObject
                 val jsonGif = jsonImages.get("downsized_medium")
-                list.add(gson.fromJson(jsonGif, T::class.java))
+                list.add(gson.fromJson(jsonGif, ImageEntity::class.java))
             }
             return list
 
         } catch (e: Exception) {
             throw ParseBackendResponseException(e)
         }
+    }
+
+
+    /**
+     * Read Json objects, returned object
+     */
+    fun Response.parseJsonResponseGifDetail(position: Int): GifDetailEntity {
+        try {
+            val responseBodyString = this.body!!.string()
+            val jsonObject: JsonObject = JsonParser.parseString(responseBodyString).asJsonObject
+            val jsonData = jsonObject.get("data").asJsonArray
+            val gif = jsonData[position].asJsonObject
+            return GifDetailEntity(
+                id = gif.get(KEY_ID).toString(),
+                username = gif.get(KEY_USERNAME).toString(),
+                title = gif.get(KEY_TITLE).toString(),
+                import_datetime = gif.get(KEY_IMPORT_DATETIME).toString()
+            )
+
+        } catch (e: Exception) {
+            throw ParseBackendResponseException(e)
+        }
+    }
+
+    companion object {
+
+        private const val KEY_ID = "id"
+        private const val KEY_USERNAME = "username"
+        private const val KEY_TITLE = "title"
+        private const val KEY_IMPORT_DATETIME = "import_datetime"
     }
 }
