@@ -7,7 +7,7 @@ class GetGifItemListUseCase(
     private val repository: GifRepository
 ) {
 
-    suspend operator fun invoke(): List<GifItemEntity> {
-        return repository.getGifList()
+    suspend operator fun invoke(url_func: String = "", args: String = ""): List<GifItemEntity> {
+        return repository.getGifList(url_func, args)
     }
 }
