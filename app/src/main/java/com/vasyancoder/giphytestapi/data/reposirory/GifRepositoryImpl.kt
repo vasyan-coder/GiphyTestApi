@@ -4,6 +4,7 @@ package com.vasyancoder.giphytestapi.data.reposirory
 import android.util.Log
 import com.vasyancoder.giphytestapi.data.config.BaseOkHttpSource
 import com.vasyancoder.giphytestapi.data.config.OkHttpConfig
+import com.vasyancoder.giphytestapi.domain.entities.GifDetailEntity
 import com.vasyancoder.giphytestapi.domain.entities.GifItemEntity
 import com.vasyancoder.giphytestapi.domain.entities.ImageEntity
 import com.vasyancoder.giphytestapi.domain.repository.GifRepository
@@ -20,7 +21,7 @@ class GifRepositoryImpl(
             .build()
 
         val response = client.newCall(request).suspendEnqueue()
-        val listImageEntities = response.parseJsonResponse<ImageEntity>()
+        val listImageEntities = response.parseJsonResponseGifs()
         val listGifItemEntities = mutableListOf<GifItemEntity>()
         for (imageEntity in listImageEntities) {
             listGifItemEntities.add(
@@ -30,6 +31,17 @@ class GifRepositoryImpl(
             )
         }
         return listGifItemEntities
+    }
+
+    override suspend fun getGifDetail(position: Int): GifDetailEntity {
+        val request = Request.Builder()
+            .get()
+            .endpoint(API_KEY)
+            .build()
+
+        val response = client.newCall(request).suspendEnqueue()
+
+        return response.parseJsonResponseGifDetail(position)
     }
 
     companion object {
