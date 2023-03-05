@@ -1,4 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext {
+        giphy_version = '2.3.1'
+        glide_version = '4.14.2'
+        okhttp_version = '4.10.0'
+        gson_version = '2.10.1'
+        fragment_version = '1.5.5'
+        coroutines_version = '1.6.4'
+    }
+}
 plugins {
     id 'com.android.application' version '7.4.1' apply false
     id 'com.android.library' version '7.4.1' apply false
