@@ -6,6 +6,7 @@ buildscript {
         okhttp_version = '4.10.0'
         gson_version = '2.10.1'
         fragment_version = '1.5.5'
+        coroutines_version = '1.6.4'
     }
 }
 plugins {

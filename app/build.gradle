@@ -47,6 +47,9 @@ dependencies {
 
     // fragments
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
 
     // GIPHY SDK
     implementation "com.giphy.sdk:ui:$giphy_version"
