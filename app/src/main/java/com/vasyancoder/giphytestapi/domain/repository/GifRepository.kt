@@ -4,5 +4,5 @@ import com.vasyancoder.giphytestapi.domain.entities.GifItemEntity
 
 interface GifRepository {
 
-        suspend fun getGifList() : List<GifItemEntity>
+    suspend fun getGifList(): List<GifItemEntity>
 }
