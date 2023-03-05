@@ -16,11 +16,12 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 open class BaseOkHttpSource(
-    private val config: OkHttpConfig
+    config: OkHttpConfig
 ) {
 
     val gson: Gson = config.gson
     val client: OkHttpClient = config.client
+    var config: OkHttpConfig = config
 
     suspend fun Call.suspendEnqueue(): Response {
         return suspendCancellableCoroutine { continuation ->
